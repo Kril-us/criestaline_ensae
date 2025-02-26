@@ -9,7 +9,8 @@ from collections import defaultdict
 #     une quantité correspondante.
 
 def caca():
-    return "prout"
+    if 0>1:
+        return "prout"
 
 def construire_réseau(liste):
     """Aide à construire la structure de graphe orienté et de capacité.
