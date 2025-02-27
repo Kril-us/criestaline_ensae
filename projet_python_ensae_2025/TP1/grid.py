@@ -74,13 +74,21 @@ class Grid():
         """
         Plots a visual representation of the grid.
         """
-        table = plt.table(self.grid)
-        for i in range (self.n) :
-            for j in range(self.m) :
-                if self.color[i][j] == 1 :
-                    
-                if self.color[i][j] == 2 :
-                    
+        #on fait un tableau des couleurs que doivent prendre les cases écrites de manières 
+        #classiques donc lisibles pour les fonctions des librairies
+        #Pour cela on utilise le dictionnaire suivant.
+        color_map = {0: 'white', 1: 'red', 2: 'blue', 3: 'green', 4: 'black'}
+        colors = [[color_map[couleur] for couleur in ligne] for ligne in self.color]
+        
+        #on créé une figure et un axe
+        fig, ax = plt.subplots()
+        #on créé le tableau
+        ax.table(cellText=self.value, cellColours=colors, cellLoc='center', loc='center')
+        #on masque les axes
+        ax.axis('off')
+        #on affiche la grille
+        plt.show()
+
     def is_forbidden(self, i, j):
         """
         Returns True if the cell (i, j) is black and False otherwise
@@ -183,5 +191,3 @@ class Grid():
 
             grid = Grid(n, m, color, value)
         return grid
-
-
