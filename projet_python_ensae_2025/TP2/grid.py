@@ -110,7 +110,8 @@ class Grid():
         cost: int
             the cost of the pair defined as the absolute value of the difference between their values
         """
-        # TODO
+        return abs(self.value[pair[0][0]][pair[0][1]] - self.value[pair[1][0]][pair[1][1]])
+
 
 
     def is_compatible (self,i1,j1,i2,j2):
