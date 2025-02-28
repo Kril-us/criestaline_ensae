@@ -113,6 +113,7 @@ class Grid():
         return abs(self.value[pair[0][0]][pair[0][1]] - self.value[pair[1][0]][pair[1][1]])
 
 
+
     def is_compatible (self,i1,j1,i2,j2):
         """
         returns True if the color of the pair of coordinates are compatible and False if not
