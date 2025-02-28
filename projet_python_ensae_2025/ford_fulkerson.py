@@ -8,9 +8,6 @@ from collections import defaultdict
 #     fonction de hachage (dict en python) qui à chaque arc d'un graphe associe
 #     une quantité correspondante.
 
-def caca():
-    if 0>1:
-        return "prout"
 
 def construire_réseau(liste):
     """Aide à construire la structure de graphe orienté et de capacité.
