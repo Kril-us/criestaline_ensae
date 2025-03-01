@@ -23,4 +23,5 @@ print("The final score of SolverGreedy is:", solver.score()," it was calculated 
 
 print(grid.all_pairs())
 
+
 grid.plot()
