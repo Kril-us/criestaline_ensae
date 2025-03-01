@@ -95,6 +95,7 @@ class Grid():
         """
         if self.color[i][j] == 4 :
             return True
+        return False
 
     def cost(self, pair):
         """
