@@ -2,6 +2,7 @@ from grid import Grid
 from solver import *
 import timeit
 
+
 grid = Grid(2, 3)
 print(grid)
 

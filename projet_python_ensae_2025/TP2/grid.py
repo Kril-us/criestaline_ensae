@@ -42,7 +42,7 @@ class Grid():
         
         The object created has an attribute colors_list: list[char], which is the mapping between the value of self.color[i][j] and the corresponding color
         """
-        self.n = n
+        self.n = n #on peut récupérer les dimension de la grille dans le fichier grid.in à chaque fois automatiquement
         self.m = m
         if not color:
             color = [[0 for j in range(m)] for i in range(n)]            
@@ -52,7 +52,7 @@ class Grid():
         self.value = value
         self.colors_list = ['w', 'r', 'b', 'g', 'k']
 
-    def __str__(self): 
+    def __str__(self):
         """
         Prints the grid as text.
         """
@@ -112,7 +112,7 @@ class Grid():
             the cost of the pair defined as the absolute value of the difference between their values
         """
         return abs(self.value[pair[0][0]][pair[0][1]] - self.value[pair[1][0]][pair[1][1]])
-
+        # d'où vient la liste pair ?
 
 
     def is_compatible (self,i1,j1,i2,j2):
@@ -142,9 +142,24 @@ class Grid():
                 if j != 0 and self.is_compatible(i,j,i,j-1) :
                     output.append(((i,j),(i,j-1)))
         return output
+    
+    # creation of a list compatible with ford_fulkerson
+    def grid_to_réseau(self):
+        output=self.all_pairs
+
+
 
                     
-                    
+      #[(('s','a'), 1),
+      #                                  (('s','b'), 1),
+      #                                  (('a','b'), 1),
+      #                                  (('a','c'), 1),
+      #                                  (('b','a'),  1),
+      #                                  (('b','d'), 1),
+      #                                  (('c','b'),  1),
+      #                                  (('c','t'), 1),
+      #                                  (('d','c'),  1),
+      #                                  (('d','t'),  1)]              
     
 
 
@@ -193,3 +208,5 @@ class Grid():
 
             grid = Grid(n, m, color, value)
         return grid
+
+

@@ -1,4 +1,26 @@
 from collections import defaultdict
+"""from grid import Grid
+
+from solver import *"""
+
+
+
+"""grid = Grid(10, 20)
+print(grid)
+
+data_path = "projet_python_ensae_2025/input/"
+
+file_name = data_path + "grid14.in"
+grid = Grid.grid_from_file(file_name)
+print(grid)
+
+file_name = data_path + "grid14.in"
+grid = Grid.grid_from_file(file_name, read_values=True)
+print(grid)
+
+grid.plot()"""
+
+
 
 # Explication des structures de données utilisées dans la suite:
 #   - On représente un graphe orienté par une tâble de hachage (dict en python)
@@ -7,6 +29,8 @@ from collections import defaultdict
 #   - Une fonction de capacité ou de flot sur un réseau est représenté par une 
 #     fonction de hachage (dict en python) qui à chaque arc d'un graphe associe
 #     une quantité correspondante.
+
+
 
 def construire_réseau(liste):
     """Aide à construire la structure de graphe orienté et de capacité.
@@ -23,7 +47,6 @@ def construire_réseau(liste):
         graphe[i].add(j)
         graphe[j].add(i)
     return (graphe, capacité)
-
 
 def ford_fulkerson(graphe, capacité, s, t):
     """Renvoie un flot maximal en utilisant la méthode de Ford-Fulkerson."""
@@ -82,9 +105,17 @@ def trouver_chemin_améliorant(graphe, capacité, flot, s, t):
                                         (('d','c'),  1),
                                         (('d','t'),  1)])
 
+
+
+
+# transformer les grid en réseau utilisable par l'algorithme de flot maximal
+#(graphe, capacité) = construire_réseau(grid.all_pairs())
+
+
 # Calcul et affiche un flot maximal du réseau précédent.
 flot_maximum = ford_fulkerson(graphe, capacité, 's', 't')
-print(flot_maximum)
+flot_max = f"Le flot maximum est  {flot_maximum} \n"
+print(flot_max)
 
 # La suite du code permet de sauvegarder une image de notre
 # résultat en utilisant la librairie graphviz.

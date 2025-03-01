@@ -2,6 +2,7 @@ import numpy as np
 from grid import Grid
 import copy
 
+
 class Solver:
     """
     A solver class. 
@@ -75,3 +76,10 @@ d'une valeure proportionnelle à 2**(n/2 -k)
 
 En sommant on obtient que la complexité totale est proportionnelle à 2**(n/2) 
 """
+
+
+
+
+class SolverFord_Fulkerson(Solver):
+    def run(self):
+        pass
