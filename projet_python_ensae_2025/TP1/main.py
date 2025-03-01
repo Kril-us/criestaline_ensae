@@ -5,6 +5,7 @@ import timeit
 grid = Grid(2, 3)
 print(grid)
 
+#krillpath = "/home/krill//criestaline_ensae/projet_python_ensae_2025/input/"
 data_path = "C:/Users/pakin/Desktop/boulot/info/projet ENSAE 1A/criestaline_ensae/projet_python_ensae_2025/input/"
 
 file_name = data_path + "grid01.in"
