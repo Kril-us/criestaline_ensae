@@ -116,37 +116,3 @@ class SolverMaxMatching(Solver):
         print("Selected pairs:", self.pairs)
 
 
-# 2eme essai
-"""
-class SolverFordFulkerson(Solver):
-    def run(self):
-        
-        # Solve the grid pairing problem using the Ford-Fulkerson algorithm.
-        
-        # Convert grid into a bipartite graph
-        edges = self.grid.all_pairs()
-        graph, capacity = construire_réseau([(edge, 1) for edge in edges])
-        
-        # Define source ('s') and terminus ('t')
-        source = 's'
-        terminus = 't'
-        
-        # Add source and terminus nodes to the graph
-        for i in range(self.grid.n):
-            for j in range(self.grid.m):
-                cell = (i, j)
-                if (i + j) % 2 == 0:  # Left side of bipartite graph
-                    graph[source].add(cell)
-                    capacity[(source, cell)] = 1
-                else:  # Right side of bipartite graph
-                    graph[cell].add(terminus)
-                    capacity[(cell, terminus)] = 1
-        
-        # Run Ford-Fulkerson to find max matching
-        flow = ford_fulkerson(graph, capacity, source, terminus)
-        
-        # Extract pairs from the flow result
-        for (u, v), f in flow.items():
-            if f == 1 and isinstance(u, tuple) and isinstance(v, tuple):
-                self.pairs.append((u, v))
-"""
