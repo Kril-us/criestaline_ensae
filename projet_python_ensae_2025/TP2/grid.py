@@ -144,6 +144,38 @@ class Grid():
         return output
     
     
+    def graph(self):
+        """
+        Converts the grid into a bipartite graph representation.
+        Returns:
+        --------
+        - nodes_left: set of cells (i, j) where (i + j) is even
+        - nodes_right: set of cells (i, j) where (i + j) is odd
+        - edges: list of valid edges between left and right nodes
+        """
+        nodes_left = set()
+        nodes_right = set()
+        edges = []
+        
+        for i in range(self.n):
+            for j in range(self.m):
+                if self.is_forbidden(i, j):
+                    continue  # Skip black cells
+                
+                if (i + j) % 2 == 0:
+                    nodes_left.add((i, j))
+                else:
+                    nodes_right.add((i, j))
+                
+                # Check adjacency and compatibility
+                if i > 0 and self.is_compatible(i, j, i-1, j):
+                    edges.append(((i, j), (i-1, j)))
+                if j > 0 and self.is_compatible(i, j, i, j-1):
+                    edges.append(((i, j), (i, j-1)))
+        
+        return nodes_left, nodes_right, edges
+    
+    
     
 
 

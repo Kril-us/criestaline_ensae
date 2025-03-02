@@ -26,3 +26,5 @@ voiture_1 = Voiture("Porsche",310)
 #voiture_1.afficher_cara()
 
 Voiture.voiture_random(voiture_1)
+
+

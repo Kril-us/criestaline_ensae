@@ -120,3 +120,15 @@ class Test_GridLoading(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+
+# test pour solver for fulkerson
+
+class Test_SolverMaxMatching(unittest.TestCase):
+    def test_solver_max_matching(self):
+        grid = Grid.grid_from_file("projet_python_ensae_2025/input/grid02.in", read_values=True)
+        solver = SolverMaxMatching(grid)
+        solver.run()
+        expected_pairs = [((0, 0), (1, 0)), ((0, 2), (1, 2))]  # Example expected pairs
+        self.assertEqual(set(solver.pairs), set(expected_pairs), "Mismatch in matching pairs")

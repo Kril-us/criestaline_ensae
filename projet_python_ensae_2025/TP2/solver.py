@@ -80,20 +80,58 @@ En sommant on obtient que la complexité totale est proportionnelle à 2**(n/2)
 
 
 
-class SolverFordFulkerson(Solver):
+from ford_fulkerson import ford_fulkerson, construire_réseau
+
+
+
+class SolverMaxMatching(Solver):
     def run(self):
         """
-        Solve the grid pairing problem using the Ford-Fulkerson algorithm.
+        Runs the solver using the maximum matching approach.
         """
+        nodes_left, nodes_right, edges = self.grid.graph()
+        
+        # Convert to a network for Ford-Fulkerson
+        edge_list = [((str(u), str(v)), 1) for u, v in edges]
+        graph, capacity = construire_réseau(edge_list)
+        
+        # Add a source 's' connected to all left nodes, and a sink 't' from all right nodes
+        for node in nodes_left:
+            graph['s'].add(str(node))
+            capacity[("s", str(node))] = 1
+        for node in nodes_right:
+            graph[str(node)].add('t')
+            capacity[(str(node), "t")] = 1
+        
+        # Compute maximum matching
+        flow = ford_fulkerson(graph, capacity, 's', 't')
+        
+        # Extract matching pairs
+        self.pairs = []
+        for (u, v), f in flow.items():
+            if f == 1 and u != 's' and v != 't':
+                self.pairs.append((eval(u), eval(v)))
+        
+        # Print selected pairs
+        print("Selected pairs:", self.pairs)
+
+
+# 2eme essai
+"""
+class SolverFordFulkerson(Solver):
+    def run(self):
+        
+        # Solve the grid pairing problem using the Ford-Fulkerson algorithm.
+        
         # Convert grid into a bipartite graph
         edges = self.grid.all_pairs()
         graph, capacity = construire_réseau([(edge, 1) for edge in edges])
         
-        # Define source ('s') and sink ('t')
+        # Define source ('s') and terminus ('t')
         source = 's'
-        sink = 't'
+        terminus = 't'
         
-        # Add source and sink nodes to the graph
+        # Add source and terminus nodes to the graph
         for i in range(self.grid.n):
             for j in range(self.grid.m):
                 cell = (i, j)
@@ -101,13 +139,14 @@ class SolverFordFulkerson(Solver):
                     graph[source].add(cell)
                     capacity[(source, cell)] = 1
                 else:  # Right side of bipartite graph
-                    graph[cell].add(sink)
-                    capacity[(cell, sink)] = 1
+                    graph[cell].add(terminus)
+                    capacity[(cell, terminus)] = 1
         
         # Run Ford-Fulkerson to find max matching
-        flow = ford_fulkerson(graph, capacity, source, sink)
+        flow = ford_fulkerson(graph, capacity, source, terminus)
         
         # Extract pairs from the flow result
         for (u, v), f in flow.items():
             if f == 1 and isinstance(u, tuple) and isinstance(v, tuple):
                 self.pairs.append((u, v))
+"""

@@ -75,16 +75,7 @@ def trouver_chemin_améliorant(graphe, capacité, flot, s, t):
 
 
 # Exemple de réseau.
-(graphe, capacité) = construire_réseau([(('s','a'), 1),
-                                        (('s','b'), 1),
-                                        (('a','b'), 1),
-                                        (('a','c'), 1),
-                                        (('b','a'),  1),
-                                        (('b','d'), 1),
-                                        (('c','b'),  1),
-                                        (('c','t'), 1),
-                                        (('d','c'),  1),
-                                        (('d','t'),  1)])
+(graphe, capacité) = construire_réseau([])
 
 
 
@@ -95,15 +86,15 @@ def trouver_chemin_améliorant(graphe, capacité, flot, s, t):
 
 # Calcul et affiche un flot maximal du réseau précédent.
 flot_maximum = ford_fulkerson(graphe, capacité, 's', 't')
-flot_max = f"Le flot maximum est  {flot_maximum} \n"
-print(flot_max)
+"""flot_max = f"Le flot maximum est  {flot_maximum} \n"
+print(flot_max)"""
 
 # La suite du code permet de sauvegarder une image de notre
 # résultat en utilisant la librairie graphviz.
 # Il faut bien sûr que le package graphviz soit installé:
 # https://graphviz.readthedocs.io/en/stable/manual.html#installation
 
-try:
+"""try:
     from graphviz import Digraph
 
     def afficher_flot(graphe, capacité, flot):
@@ -115,4 +106,4 @@ try:
 
     afficher_flot(graphe, capacité, flot_maximum)
 except:
-    pass # graphviz n'est pas installé :(
+    pass # graphviz n'est pas installé :("""
