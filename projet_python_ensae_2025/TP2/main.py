@@ -31,6 +31,7 @@ grid.plot()
 # problème réglé : après des test la recursion est trop lourde pour python sur mon ordi 
 # ne pas tester avec les grid20 ou plus sinon ça crash
 # après des test solverMaxMatching est moins performant que le greedy (tester grid17)
+# Et l'algorithme ne semble pas plus efficace et demande beaucoup de calcul à python, plus que le solver greedy
 solver_max = SolverMaxMatching(grid)
 start = timeit.timeit()
 solver_max.run()
