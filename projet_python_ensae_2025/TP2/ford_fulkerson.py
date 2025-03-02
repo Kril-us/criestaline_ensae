@@ -1,24 +1,5 @@
 from collections import defaultdict
-"""from grid import Grid
 
-from solver import *"""
-
-
-
-"""grid = Grid(10, 20)
-print(grid)
-
-data_path = "projet_python_ensae_2025/input/"
-
-file_name = data_path + "grid14.in"
-grid = Grid.grid_from_file(file_name)
-print(grid)
-
-file_name = data_path + "grid14.in"
-grid = Grid.grid_from_file(file_name, read_values=True)
-print(grid)
-
-grid.plot()"""
 
 
 

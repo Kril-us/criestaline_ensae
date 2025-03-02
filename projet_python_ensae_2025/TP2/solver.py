@@ -80,6 +80,34 @@ En sommant on obtient que la complexité totale est proportionnelle à 2**(n/2)
 
 
 
-class SolverFord_Fulkerson(Solver):
+class SolverFordFulkerson(Solver):
     def run(self):
-        pass
+        """
+        Solve the grid pairing problem using the Ford-Fulkerson algorithm.
+        """
+        # Convert grid into a bipartite graph
+        edges = self.grid.all_pairs()
+        graph, capacity = construire_réseau([(edge, 1) for edge in edges])
+        
+        # Define source ('s') and sink ('t')
+        source = 's'
+        sink = 't'
+        
+        # Add source and sink nodes to the graph
+        for i in range(self.grid.n):
+            for j in range(self.grid.m):
+                cell = (i, j)
+                if (i + j) % 2 == 0:  # Left side of bipartite graph
+                    graph[source].add(cell)
+                    capacity[(source, cell)] = 1
+                else:  # Right side of bipartite graph
+                    graph[cell].add(sink)
+                    capacity[(cell, sink)] = 1
+        
+        # Run Ford-Fulkerson to find max matching
+        flow = ford_fulkerson(graph, capacity, source, sink)
+        
+        # Extract pairs from the flow result
+        for (u, v), f in flow.items():
+            if f == 1 and isinstance(u, tuple) and isinstance(v, tuple):
+                self.pairs.append((u, v))
