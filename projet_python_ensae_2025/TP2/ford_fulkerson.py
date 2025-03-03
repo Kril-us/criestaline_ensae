@@ -1,6 +1,6 @@
 from collections import defaultdict, deque
 
-def construire_réseau(liste):
+def construire_réseau(liste,grid):
     capacité = dict(liste)
     graphe = defaultdict(set)
     for ((i, j), _) in liste:

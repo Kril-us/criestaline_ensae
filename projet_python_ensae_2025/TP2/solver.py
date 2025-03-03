@@ -92,7 +92,7 @@ class SolverMaxMatching(Solver):
         nodes_left, nodes_right, edges = self.grid.graph()
         
         # Convert to a network for Ford-Fulkerson
-        edge_list = [((str(u), str(v)), 1) for u, v in edges]
+        edge_list = [((str(coordinates0), str(coordinates1)), 1) for coordinates0, coordinates1 in edges]
         graph, capacity = construire_réseau(edge_list)
         
         # Add a source 's' connected to all left nodes, and a sink 't' from all right nodes
