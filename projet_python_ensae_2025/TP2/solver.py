@@ -34,6 +34,11 @@ class Solver:
         output = 0
         for pair in self.pairs:
             output += abs(self.grid.value[pair[0][0]][pair[0][1]] - self.grid.value[pair[1][0]][pair[1][1]])
+        sommets_atteints = [u for (u,v) in self.pairs] + [v for (u,v) in self.pairs]
+        for i in range(self.grid.n):
+            for j in range(self.grid.m):
+                if (i,j) not in sommets_atteints and self.grid.color[i][j] != 4:
+                    output += self.grid.value[i][j]
         return output
 
 class SolverEmpty(Solver):
@@ -92,7 +97,7 @@ class SolverMaxMatching(Solver):
         nodes_left, nodes_right, edges = self.grid.graph()
         
         # Convert to a network for Ford-Fulkerson
-        edge_list = [((str(coordinates0), str(coordinates1)), 1) for coordinates0, coordinates1 in edges]
+        edge_list = [((str(coordinates0), str(coordinates1)), self.grid.cost((coordinates0,coordinates1))) for coordinates0, coordinates1 in edges]
         graph, capacity = construire_réseau(edge_list)
         
         # Add a source 's' connected to all left nodes, and a sink 't' from all right nodes
@@ -111,8 +116,3 @@ class SolverMaxMatching(Solver):
         for (u, v), f in flow.items():
             if f == 1 and u != 's' and v != 't':
                 self.pairs.append((eval(u), eval(v)))
-        
-        # Print selected pairs
-        print("Selected pairs:", self.pairs)
-
-

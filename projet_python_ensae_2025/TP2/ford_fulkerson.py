@@ -1,11 +1,12 @@
 from collections import defaultdict, deque
 
-def construire_réseau(liste,grid):
+def construire_réseau(liste):
     capacité = dict(liste)
     graphe = defaultdict(set)
     for ((i, j), _) in liste:
         graphe[i].add(j)
         graphe[j].add(i)
+        capacité[(j,i)] = capacité[(i,j)] 
     return (graphe, capacité)
 
 def ford_fulkerson(graphe, capacité, s, t):
@@ -23,11 +24,14 @@ def ford_fulkerson(graphe, capacité, s, t):
             
             for voisin in graphe[sommet_actuel]:
                 if voisin not in visités:
-                    if (sommet_actuel, voisin) in capacité and capacité[(sommet_actuel, voisin)] > flot[(sommet_actuel, voisin)]:
+                    if voisin == 't' :
+                        break
+                    if capacité[(sommet_actuel, voisin)] > flot[(sommet_actuel, voisin)]:
                         pile.append((voisin, visités | {voisin}, arcs_plus + [(sommet_actuel, voisin)], arcs_moins))
-                    elif (voisin, sommet_actuel) in capacité and flot[(voisin, sommet_actuel)] > 0:
-                        pile.append((voisin, visités | {voisin}, arcs_plus, arcs_moins + [(voisin, sommet_actuel)]))
-        
+                        return (arcs_plus + [(sommet_actuel, voisin)], arcs_moins)
+                    elif sommet_actuel != 's'and flot[(voisin, sommet_actuel)] > 0:
+                        pile.append((voisin, visités | {voisin}, arcs_plus, arcs_moins + [(voisin, sommet_actuel)])) 
+                        return arcs_plus, arcs_moins + [(voisin, sommet_actuel)]
         return None
     
     chemin = trouver_chemin_améliorant()
