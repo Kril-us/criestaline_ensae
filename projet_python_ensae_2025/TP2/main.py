@@ -8,11 +8,11 @@ print(grid)
 
 data_path = "projet_python_ensae_2025/input/"
 
-file_name = data_path + "grid15.in"
+file_name = data_path + "grid17.in"
 grid = Grid.grid_from_file(file_name)
 print(grid)
 
-file_name = data_path + "grid15.in"
+file_name = data_path + "grid17.in"
 grid = Grid.grid_from_file(file_name, read_values=True)
 print(grid)
 
@@ -24,7 +24,7 @@ print("The final score of SolverGreedy is:", solver.score()," it was calculated 
 
 print(grid.all_pairs())
 
-grid.plot()
+#grid.plot()
 
 
 # solver ford fulkerson

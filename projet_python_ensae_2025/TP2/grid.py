@@ -173,11 +173,11 @@ class Grid():
                 if j > 0 and self.is_compatible(i, j, i, j-1):
                     edges.append(((i, j), (i, j-1)))
 
-                 # Check adjacency to the right and below
-                if j < self.m - 1 and self.is_compatible(i, j, i, j+1):
+                # Check adjacency to the right and below
+                """if j < self.m - 1 and self.is_compatible(i, j, i, j+1):
                     edges.append(((i, j), (i, j+1)))
                 if i < self.n - 1 and self.is_compatible(i, j, i+1, j):
-                    edges.append(((i, j), (i+1, j)))
+                    edges.append(((i, j), (i+1, j)))"""
         return nodes_left, nodes_right, edges
     
     
