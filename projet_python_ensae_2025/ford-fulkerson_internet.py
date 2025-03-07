@@ -1,4 +1,3 @@
-
 from collections import defaultdict
 
 
@@ -76,7 +75,16 @@ def trouver_chemin_améliorant(graphe, capacité, flot, s, t):
 
 
 # Exemple de réseau.
-(graphe, capacité) = construire_réseau([])
+(graphe, capacité) = construire_réseau([(('s','a'), 16),
+                                        (('s','b'), 13),
+                                        (('a','b'), 10),
+                                        (('a','c'), 12),
+                                        (('b','a'),  4),
+                                        (('b','d'), 14),
+                                        (('c','b'),  9),
+                                        (('c','t'), 20),
+                                        (('d','c'),  7),
+                                        (('d','t'),  4)])
 
 
 

@@ -24,7 +24,7 @@ end = timeit.timeit()
 print("The final score of SolverGreedy is:", solver.score()," it was calculated in:", end - start, "seconds")
 """
 
-"""print(grid.all_pairs())"""
+print(grid.all_pairs())
 
 """grid.plot()"""
 
@@ -35,8 +35,9 @@ print("The final score of SolverGreedy is:", solver.score()," it was calculated 
 # après des test solverMaxMatching est moins performant que le greedy (tester grid17)
 # Et l'algorithme ne semble pas plus efficace et demande beaucoup de calcul à python, plus que le solver greedy
 # l'algorithme ne donne pas la même chose à chaque fois
-solver_max = SolverMaxMatching(grid)
+"""solver_max = SolverMaxMatching(grid)
 start = timeit.timeit()
 solver_max.run()
 end = timeit.timeit()
 print("The final score of SolverMaxMatching is:", solver_max.score(), " it was calculated in:", end - start, "seconds")
+"""

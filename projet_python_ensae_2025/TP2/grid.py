@@ -145,19 +145,19 @@ class Grid():
     
     
     def graph(self):
-        """
-        Converts the grid into a bipartite graph representation.
-        Returns:
-        --------
-        - nodes_left: set of cells (i, j) where (i + j) is even
-        - nodes_right: set of cells (i, j) where (i + j) is odd
-        - edges: list of valid edges between left and right nodes
-        """
-        nodes_left = set()
-        nodes_right = set()
-        edges = []
-        
-        for i in range(self.n):
+        # converts all_pairs in usable pairs for ford fulkerson and add a start and a terminus
+        nv_all_pairs = self.all_pairs()
+        for pair in self.all_pairs():
+            i = pair[0][0]
+            j = pair[0][1]
+            if (i + j) % 2 == 0:
+                nv_all_pairs += [((-1,-1),(i,j)),((i,j),(-1,-1))] # (-1,-1) correspond to "s" aka start in ford fulkerson
+            else:
+                nv_all_pairs += [((-2,-2),(i,j)),((i,j),(-2,-2))] # (-2,-2) correspond to "t" aka terminus (sink) in ford fulkerson
+        return nv_all_pairs
+            
+
+        """for i in range(self.n):
             for j in range(self.m):
                 if self.is_forbidden(i, j):
                     continue  # Skip black cells
@@ -174,13 +174,14 @@ class Grid():
                     edges.append(((i, j), (i, j-1)))
 
                 # Check adjacency to the right and below
-                """if j < self.m - 1 and self.is_compatible(i, j, i, j+1):
+                if j < self.m - 1 and self.is_compatible(i, j, i, j+1):
                     edges.append(((i, j), (i, j+1)))
                 if i < self.n - 1 and self.is_compatible(i, j, i+1, j):
-                    edges.append(((i, j), (i+1, j)))"""
+                    edges.append(((i, j), (i+1, j)))
         return nodes_left, nodes_right, edges
     
-    
+   
+    """
     
 
 
