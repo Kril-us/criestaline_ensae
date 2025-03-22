@@ -24,7 +24,7 @@ end = timeit.timeit()
 print("The final score of SolverGreedy is:", solver.score()," it was calculated in:", end - start, "seconds")
 """
 
-print(grid.all_pairs())
+#print(grid.all_pairs())
 
 """grid.plot()"""
 

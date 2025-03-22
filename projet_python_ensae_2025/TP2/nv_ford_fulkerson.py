@@ -3,7 +3,7 @@ from grid import Grid
 
 data_path = "projet_python_ensae_2025/input/"
 
-file_name = data_path + "grid24.in"
+file_name = data_path + "grid03.in"
 grid = Grid.grid_from_file(file_name, read_values=True)
 #print(grid)
 
@@ -34,10 +34,11 @@ from networkx.algorithms.flow import shortest_augmenting_path
 
 flow_value, flow_dict = nx.maximum_flow(G,(-1,-1),(-2,-2),flow_func=shortest_augmenting_path)
 
+#flow_dict = [elt for elt in flow_dict if flow_dict[elt]!=0]
 
 print (flow_value)
-print("===================================="+"\n")
-#print(flow_dict)
+print("\n" + "===================================="+"\n")
+print(flow_dict)
 
 
 
