@@ -1,0 +1,12 @@
+digraph {
+	s -> a [label="10 / 16"]
+	s -> b [label="13 / 13"]
+	a -> b [label="0 / 10"]
+	a -> c [label="12 / 12"]
+	b -> a [label="2 / 4"]
+	b -> d [label="11 / 14"]
+	c -> b [label="0 / 9"]
+	c -> t [label="19 / 20"]
+	d -> c [label="7 / 7"]
+	d -> t [label="4 / 4"]
+}
