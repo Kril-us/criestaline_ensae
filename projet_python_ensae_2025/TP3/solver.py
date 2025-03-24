@@ -27,15 +27,15 @@ class Solver:
         """
         self.grid = grid
         self.pairs = list()
-        self.test_ford = False #renvoie true si le solver est celui de ford fulkersen
-        self.flow_value = 0
+        self.test_score = False #renvoie true si le solver est celui de ford fulkersen
+        self.score_int = 0
 
     def score(self):
         """
         Computes the score of the list of pairs in self.pairs
         """
-        if self.test_ford :
-            return self.flow_value
+        if self.test_score :
+            return self.score
         else :
             output = 0
             for pair in self.pairs:
@@ -86,11 +86,8 @@ En sommant on obtient que la complexité totale est en O((n*m)**2)
 
 
 
-class SolverMaxMatching(Solver):
+class SolverFordNetworkx(Solver):
     def run(self):
-        """
-        Runs the solver using the maximum matching approach.
-        """
 
         def pairs_for_ford(list):
             pairs_ford = [] # liste of pairs with their capacity compatible with ford-fulkerson
@@ -116,5 +113,68 @@ class SolverMaxMatching(Solver):
                 if flow > 0:
                     self.pairs.append((source, target))
 
-        self.test_ford = True
-        self.flow_value = flow_value
+
+
+class SolverHungarian(Solver):
+    def run(self):
+        
+        def build_bipartite_graph(grid):
+            """
+            Construit la structure d’un graphe biparti sous forme d’un dictionnaire à partir d’un objet grid.
+            
+            Retourne :
+                {
+                    "left_nodes": liste des cellules côté gauche,
+                    "right_nodes": liste des cellules côté droit,
+                    "weights": dictionnaire {(cell_gauche, cell_droite): weight}
+                }
+            """
+            left_nodes, right_nodes = list(), list()
+            
+            max_val = max(max(row) for row in grid.value) + 1
+            weights = {}
+
+            for (i1, j1), (i2, j2) in grid.all_pairs():
+                diff = abs(grid.value[i1][j1] - grid.value[i2][j2])
+                weight = max_val - diff
+                if (i1 + j1) % 2 == 0 :
+                    left_nodes.append((i1,j1))
+                    right_nodes.append((i2,j2))
+                    weights[((i1, j1), (i2, j2))] = weight
+                else :
+                    left_nodes.append((i2,j2))
+                    right_nodes.append((i1,j1))
+                    weights[((i2, j2), (i1, j1))] = weight
+
+            return {
+                "left_nodes": left_nodes,
+                "right_nodes": right_nodes,
+                "weights": weights
+            }
+        
+
+
+        def build_cost_matrix(bipartite_graph):
+            """
+            Construit la matrice de coût à partir du dictionnaire bipartite_graph.
+            
+            Retourne :
+                - cost_matrix : matrice numpy (2D) avec les poids
+                - left_nodes, right_nodes : listes pour retrouver les coordonnées
+            """
+            left_nodes = bipartite_graph["left_nodes"]
+            right_nodes = bipartite_graph["right_nodes"]
+            weights = bipartite_graph["weights"]
+
+            n_left = len(left_nodes)
+            n_right = len(right_nodes)
+            cost_matrix = -np.inf * np.ones((n_left, n_right))  # Valeurs impossibles par défaut
+
+            # Remplissage de la matrice
+            for (u, v), w in weights.items():
+                i = left_nodes.index(u)
+                j = right_nodes.index(v)
+                cost_matrix[i, j] = w
+
+            return cost_matrix, left_nodes, right_nodes
+

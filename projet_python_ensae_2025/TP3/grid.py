@@ -146,42 +146,15 @@ class Grid():
     
     def graph(self):
         # converts all_pairs in usable pairs for ford fulkerson and add a start and a terminus
-        nv_all_pairs = self.all_pairs()
+        new_all_pairs = self.all_pairs()
         for pair in self.all_pairs():
             i = pair[0][0]
             j = pair[0][1]
             if (i + j) % 2 == 0:
-                nv_all_pairs += [((-1,-1),(i,j)),((i,j),(-1,-1))] # (-1,-1) correspond to "s" aka start in ford fulkerson
+                new_all_pairs += [((-1,-1),(i,j)),((i,j),(-1,-1))] # (-1,-1) correspond to "s" aka start in ford fulkerson
             else:
-                nv_all_pairs += [((-2,-2),(i,j)),((i,j),(-2,-2))] # (-2,-2) correspond to "t" aka terminus (sink) in ford fulkerson
-        return nv_all_pairs
-            
-
-        """for i in range(self.n):
-            for j in range(self.m):
-                if self.is_forbidden(i, j):
-                    continue  # Skip black cells
-                
-                if (i + j) % 2 == 0:
-                    nodes_left.add((i, j))
-                else:
-                    nodes_right.add((i, j))
-                
-                # Check adjacency and compatibility
-                if i > 0 and self.is_compatible(i, j, i-1, j):
-                    edges.append(((i, j), (i-1, j)))
-                if j > 0 and self.is_compatible(i, j, i, j-1):
-                    edges.append(((i, j), (i, j-1)))
-
-                # Check adjacency to the right and below
-                if j < self.m - 1 and self.is_compatible(i, j, i, j+1):
-                    edges.append(((i, j), (i, j+1)))
-                if i < self.n - 1 and self.is_compatible(i, j, i+1, j):
-                    edges.append(((i, j), (i+1, j)))
-        return nodes_left, nodes_right, edges
-    
-   
-    """
+                new_all_pairs += [((-2,-2),(i,j)),((i,j),(-2,-2))] # (-2,-2) correspond to "t" aka terminus (sink) in ford fulkerson
+        return new_all_pairs
     
 
 
