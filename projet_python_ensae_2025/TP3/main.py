@@ -28,7 +28,7 @@ print("The final score of SolverFordNetworkx is:", solver_max.score(), " it was 
 """
 
 
-solver_hung = SolverHungarianNetworkx(grid)
+solver_hung = SolverHungarian(grid)
 start = timeit.timeit()
 solver_hung.run()
 end = timeit.timeit()

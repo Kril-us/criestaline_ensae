@@ -5,12 +5,12 @@ import numpy as np
 class TestHungarian(unittest.TestCase):
 
     def test_unsolved(self):
-        state = hun.HungarianAlg(np.asarray([[82,83,69,92],[77,37,49,92],[11,69,5,86],[8,9,98,23]]))
+        state = hun.HungarianAlg(np.asarray([[-np.inf,0,-np.inf,0],[-np.inf,-np.inf,-np.inf,-np.inf],[-np.inf,-np.inf,-np.inf,-np.inf],[8,9,98,23]]))
 
         self.assertRaises(Exception)
 
     def test_square_matrix(self):
-        state = hun.HungarianAlg(np.asarray([[82,83,69,92],[77,37,49,92],[11,69,5,86],[8,9,98,23]]))
+        state = hun.HungarianAlg(np.asarray([[-np.inf,-np.inf,-np.inf,-np.inf],[-np.inf,-np.inf,-np.inf,-np.inf],[11,69,5,86],[8,9,98,23]]))
         state.solve()
 
         self.assertEqual(state.minimum_cost,140)
@@ -35,3 +35,4 @@ class TestHungarian(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+    

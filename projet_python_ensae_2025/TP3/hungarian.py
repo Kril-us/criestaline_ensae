@@ -1,4 +1,3 @@
-
 import numpy as np
 
 class HungarianAlg(object):
@@ -9,7 +8,7 @@ class HungarianAlg(object):
         It then records the shape and initiates some helper variables, like the covers for the rows and columns and the markings.
         '''
         self.O = cost_matrix
-        self.C = cost_matrix.copy(deep=True)
+        self.C = cost_matrix.copy()  # Removed deep=True
         self.n, self.m = self.C.shape
         self.row_covered = np.zeros(self.n, dtype=bool)
         self.col_covered = np.zeros(self.m, dtype=bool)
@@ -75,14 +74,34 @@ def _step1(state):
     '''
     Subtracts the minimum value per column for each cell of that column
     '''
-    state.C = state.C - np.min(state.C,axis=1)[:,np.newaxis]
+    # Replace np.inf with np.nan to ignore them in the minimum calculation
+    temp_C = np.where(np.isinf(state.C), np.nan, state.C)
+    
+    # Check if any row is entirely NaN
+    if np.any(np.all(np.isnan(temp_C), axis=1)):
+        # If a row is entirely NaN, no solution exists
+        return (False, np.inf, None)
+    
+    # Subtract the minimum value per row, ignoring np.inf
+    row_min = np.nanmin(temp_C, axis=1)
+    state.C = state.C - row_min[:, np.newaxis]
     return _step2
 
 def _step2(state):
     '''
     Subtracts the minimum value per row for each cell of that row
     '''
-    state.C = state.C - np.min(state.C,axis=0)[np.newaxis,:]
+    # Replace np.inf with np.nan to ignore them in the minimum calculation
+    temp_C = np.where(np.isinf(state.C), np.nan, state.C)
+    
+    # Check if any column is entirely NaN
+    if np.any(np.all(np.isnan(temp_C), axis=0)):
+        # If a column is entirely NaN, no solution exists
+        return (False, np.inf, None)
+    
+    # Subtract the minimum value per column, ignoring np.inf
+    col_min = np.nanmin(temp_C, axis=0)
+    state.C = state.C - col_min[np.newaxis, :]
     return _step3
 
 def _step3(state):
@@ -167,3 +186,65 @@ def _check_for_solution(state):
     state._clear_covers()
 
     return len(sol)==state.m, cost, sol
+
+
+
+def build_bipartite_graph(grid):
+    """
+    Construit la structure d’un graphe biparti sous forme d’un dictionnaire à partir d’un objet grid.
+    
+    Retourne :
+        {
+            "left_nodes": liste des cellules côté gauche,
+            "right_nodes": liste des cellules côté droit,
+            "weights": dictionnaire {(cell_gauche, cell_droite): weight}
+        }
+    """
+    left_nodes, right_nodes = list(), list()
+    
+    max_val = max(max(row) for row in grid.value) + 1
+    weights = {}
+
+    for (i1, j1), (i2, j2) in grid.all_pairs():
+        diff = abs(grid.value[i1][j1] - grid.value[i2][j2])
+        weight = max_val - diff
+        if (i1 + j1) % 2 == 0 :
+            left_nodes.append((i1,j1))
+            right_nodes.append((i2,j2))
+            weights[((i1, j1), (i2, j2))] = weight
+        else :
+            left_nodes.append((i2,j2))
+            right_nodes.append((i1,j1))
+            weights[((i2, j2), (i1, j1))] = weight
+
+    return {
+        "left_nodes": left_nodes,
+        "right_nodes": right_nodes,
+        "weights": weights
+    }
+
+
+
+def build_cost_matrix(bipartite_graph):
+    """
+    Construit la matrice de coût à partir du dictionnaire bipartite_graph.
+    
+    Retourne :
+        - cost_matrix : matrice numpy (2D) avec les poids
+        - left_nodes, right_nodes : listes pour retrouver les coordonnées
+    """
+    left_nodes = bipartite_graph["left_nodes"]
+    right_nodes = bipartite_graph["right_nodes"]
+    weights = bipartite_graph["weights"]
+
+    n_left = len(left_nodes)
+    n_right = len(right_nodes)
+    cost_matrix =np.asarray( np.inf * np.ones((n_left, n_right)))  # Valeurs impossibles par défaut
+
+    # Remplissage de la matrice
+    for (u, v), w in weights.items():
+        i = left_nodes.index(u)
+        j = right_nodes.index(v)
+        cost_matrix[i, j] = w
+
+    return cost_matrix, left_nodes, right_nodes
